@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- 
+        bean:是spring工厂帮你new的一个对象（机制：反射机制）
+	    class:要new的对象的类型的字符串表示形式（一定全类名）
+	    id/name:标识对象的名字，用来获取bean对象用的标识。习惯上，这个名字命名为接口的名字首字母小写
+	 -->
+	<bean id="userDao"  class="com.igeek.spring.UserDaoImpl"/>
+	<!--
+	service 
+	di：必须双方都是bean:在创建service的时候，主动将dao的依赖对象注入交给serivce
+	 -->
+	<bean name="userService" class="com.igeek.spring.UserServiceImpl">
+		<!-- property:
+		setter属性注入
+			* name：setter属性的名字，和类一致。如果setXxx,这里xxx,setUserDAO-userDAO
+			* spring会自动调用setUserDao(IUserDao userDao)方法
+			* ref:spring容器中定义的bean（对象）的名字
+		 -->
+		<property name="userDao" ref="userDao"/>
+	</bean>
+</beans>

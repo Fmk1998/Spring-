@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd
+						   http://www.springframework.org/schema/context 
+						   http://www.springframework.org/schema/context/spring-context.xsd
+						   http://www.springframework.org/schema/aop 
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+                           
+    <!-- 1.确定了要增强的target对象 -->
+	<!-- 对于spring来说，目标对象：就是bean对象 -->
+	<!-- 基于接口类 -->
+	<bean id="customerService" class="com.igeek.CustomerServiceImpl"/>
+	<!-- 基于一般类 -->
+	<bean id="productService" class="com.igeek.ProductService"/>
+	<!-- 2.配置advice通知增强 -->
+    <bean id="myAspectAdvice" class="com.igeek.MyAspect"/>
+    <!-- 3：配置aop -->
+	<aop:config>
+		<aop:aspect ref="myAspectAdvice">
+			<aop:pointcut expression="bean(*Service)" id="myPointcut"/>
+			<!-- 最终通知 -->
+			<aop:after method="after" pointcut-ref="myPointcut"/>
+            <!--  以上代码也可以写成：pointcut切入点表达式:只能给一个通知方法来用，相当于省略了<aop:pointcut expression="bean(*Service)" id="myPointcut"/>
+			<aop:after method="after" pointcut="bean(*Service)"/>-->
+		</aop:aspect>
+	
+	</aop:config>
+</beans>
